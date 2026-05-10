@@ -1,0 +1,62 @@
+# 🚀 Ethara Tasks - Team Task Manager
+
+A premium, full-stack Task Management System designed for high-performance teams. Built with a modern tech stack and focusing on **security (OWASP Top 10)**, **scalability**, and **exceptional UX**.
+
+## ✨ Features
+
+- **🔐 Robust Authentication**: JWT-based auth with secure password hashing and session management.
+- **🛡️ Advanced RBAC**: Multi-tier role system (Admin, Manager, Lead, Developer, Intern) with granular permissions.
+- **📊 Real-time Analytics**: Dynamic dashboard showing project health, task progress, and overdue alerts.
+- **🔗 Professional Routing**: Clean, slug-based URLs for projects (e.g., `/projects/launch-plan`).
+- **🛡️ Security First**: Protected against OWASP Top 10 (XSS, SQL Injection, HPP, etc.) using `helmet`, `hpp`, and `zod`.
+- **⚡ Optimized Workflow**: Custom setup scripts for lightning-fast local development and deployment.
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React 18, Vite, Tailwind CSS, TanStack Query (React Query), Lucide Icons.
+- **Backend**: Node.js, Express, Prisma ORM.
+- **Database**: PostgreSQL.
+- **DevOps**: Docker (Local), Railway (Production), Nixpacks.
+
+## 🚦 Getting Started
+
+### 1. One-Command Setup
+For the first time running the project, use the setup command to install dependencies and prepare the database:
+```bash
+npm run setup
+```
+
+### 2. Local Development
+Once setup is complete, start the entire stack (Postgres, Backend, and Frontend) with:
+```bash
+npm run dev:full
+```
+
+- **Frontend**: `http://localhost:5173`
+- **Backend**: `http://localhost:5000`
+
+## 👥 Demo Credentials
+
+| Role | Email | Password |
+| :--- | :--- | :--- |
+| **Admin** | `admin@example.com` | `Password123` |
+| **Developer** | `developer@example.com` | `Password123` |
+| **Manager** | `manager@example.com` | `Password123` |
+
+## 🌐 Deployment (Railway)
+
+### Backend Service
+1. Provision a **PostgreSQL** instance on Railway.
+2. Deploy the `/backend` folder.
+3. Set environment variables:
+   - `DATABASE_URL`: Link to your Railway Postgres.
+   - `JWT_SECRET`: A secure random string.
+   - `FRONTEND_URL`: Your deployed frontend URL.
+
+### Frontend Service
+1. Deploy the `/frontend` folder.
+2. Set environment variable:
+   - `VITE_API_URL`: Your deployed backend URL + `/api`.
+
+## 📜 License
+MIT License. Created for the Ethara Engineering Challenge.

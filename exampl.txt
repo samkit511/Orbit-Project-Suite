@@ -1,0 +1,31 @@
+# THIS FILE LISTS ALL IGNORED PATTERNS AND THEIR PURPOSE
+
+# PATTERN: node_modules/
+# PLACEHOLDER: (Auto-generated folder containing project dependencies)
+# EXAMPLE: /node_modules, /backend/node_modules, /frontend/node_modules
+
+# PATTERN: dist/
+# PLACEHOLDER: (Build output folder)
+# EXAMPLE: /frontend/dist
+
+# PATTERN: .env
+# PLACEHOLDER: (Secret environment variables)
+# EXAMPLE: 
+# DATABASE_URL=postgresql://...
+# JWT_SECRET=...
+
+# PATTERN: .vscode/ or .idea/
+# PLACEHOLDER: (Personal IDE configurations)
+# EXAMPLE: /.vscode/settings.json
+
+# PATTERN: *.log
+# PLACEHOLDER: (Error and debug logs)
+# EXAMPLE: error.log, npm-debug.log
+
+# PATTERN: .DS_Store
+# PLACEHOLDER: (macOS specific folder metadata)
+# EXAMPLE: .DS_Store
+
+# PATTERN: coverage/
+# PLACEHOLDER: (Test coverage reports)
+# EXAMPLE: /coverage/index.html
