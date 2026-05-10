@@ -57,6 +57,3 @@ npm run dev:full
 1. Deploy the `/frontend` folder.
 2. Set environment variable:
    - `VITE_API_URL`: Your deployed backend URL + `/api`.
-
-## 📜 License
-MIT License. Created for the Ethara Engineering Challenge.
