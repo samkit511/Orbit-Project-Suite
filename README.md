@@ -43,17 +43,18 @@ npm run dev:full
 | **Developer** | `developer@example.com` | `Password123` |
 | **Manager** | `manager@example.com` | `Password123` |
 
-## 🌐 Deployment (Railway)
+## 🌐 Deployment (Railway Free Tier)
 
-### Backend Service
-1. Provision a **PostgreSQL** instance on Railway.
-2. Deploy the `/backend` folder.
-3. Set environment variables:
-   - `DATABASE_URL`: Link to your Railway Postgres.
-   - `JWT_SECRET`: A secure random string.
-   - `FRONTEND_URL`: Your deployed frontend URL.
+This project is optimized for **Railway's Free Tier** by combining the Backend and Frontend into a single service. This stays within the 2-service limit (Database + App).
 
-### Frontend Service
-1. Deploy the `/frontend` folder.
-2. Set environment variable:
-   - `VITE_API_URL`: Your deployed backend URL + `/api`.
+### Unified Deployment Steps:
+1.  **Provision PostgreSQL**: Create a new project on Railway and add a PostgreSQL instance.
+2.  **Deploy from GitHub**: Connect your repository. Railway will detect the root `railway.json` and build both.
+3.  **Environment Variables**: Add these to your service:
+    - `DATABASE_URL`: Your Railway Postgres connection string.
+    - `JWT_SECRET`: A secure random string.
+    - `NODE_ENV`: Set to `production`.
+    - `VITE_API_URL`: Set to `/api`.
+
+## 📜 License
+MIT License. Created for the Ethara Engineering Challenge.

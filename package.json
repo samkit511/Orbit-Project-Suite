@@ -4,8 +4,10 @@
     "private":  true,
     "description":  "Full-stack Team Task Manager with React, Express, Prisma, and PostgreSQL.",
     "scripts":  {
-                    "setup":  "npm run install:all && npm run db:start && npm run db:wait && npm run prisma:generate && npm run prisma:migrate && npm run prisma:seed",
+                    "setup": "npm run install:all && npm run db:start && npm run db:wait && npm run prisma:generate && npm run prisma:migrate && npm run prisma:seed",
                     "install:all":  "npm install --prefix backend && npm install --prefix frontend",
+                    "build": "npm run build:frontend && npm run prisma:generate",
+                    "start": "npm run prisma:migrate --prefix backend && node backend/src/server.js",
                     "dev:backend":  "npm run dev --prefix backend",
                     "dev:frontend":  "npm run dev --prefix frontend -- --host 0.0.0.0",
                     "dev:full":  "concurrently -k -n BACKEND,FRONTEND -c green,cyan \"npm run dev:backend\" \"npm run dev:frontend\"",

@@ -1,4 +1,6 @@
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import express from "express";
 import helmet from "helmet";
@@ -95,6 +97,20 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/users", userRoutes);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+if (process.env.NODE_ENV === "production") {
+  const frontendPath = path.join(__dirname, "../../frontend/dist");
+  app.use(express.static(frontendPath));
+  app.get("*", (req, res, next) => {
+    if (!req.path.startsWith("/api") && !req.path.startsWith("/health")) {
+      return res.sendFile(path.join(frontendPath, "index.html"));
+    }
+    next();
+  });
+}
 
 app.use(notFound);
 app.use(errorHandler);
