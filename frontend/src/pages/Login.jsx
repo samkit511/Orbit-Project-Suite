@@ -28,7 +28,14 @@ export default function Login() {
     <main className="grid min-h-screen place-items-center px-4">
       <form className="w-full max-w-md rounded-lg border border-slate-200 bg-white p-6" onSubmit={handleSubmit}>
         <h1 className="text-2xl font-bold text-ink">Sign in</h1>
-        <p className="mt-1 text-sm text-slate-500">Use admin@example.com / Password123 after seeding.</p>
+        <div className="mt-4 rounded-md border border-slate-100 bg-slate-50 p-3 text-xs text-slate-600">
+          <p className="font-semibold text-slate-800">Test Credentials (Password: Password123):</p>
+          <ul className="mt-1 list-inside list-disc space-y-0.5">
+            <li>Admin: <span className="font-mono">admin@example.com</span></li>
+            <li>Manager: <span className="font-mono">manager@example.com</span></li>
+            <li>Developer: <span className="font-mono">dev@example.com</span></li>
+          </ul>
+        </div>
         {error && <p className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p>}
         <label className="mt-5 block text-sm font-medium text-slate-700">
           Email
