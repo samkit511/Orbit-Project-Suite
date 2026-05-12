@@ -7,6 +7,7 @@ import helmet from "helmet";
 import hpp from "hpp";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
+import fs from "fs";
 import authRoutes from "./routes/auth.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
 import projectRoutes from "./routes/project.routes.js";
@@ -99,26 +100,14 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/users", userRoutes);
 
 app.get("/api/debug-paths", (req, res) => {
-  const fs = await import("fs");
   const cwd = process.cwd();
-  const paths = [
-    cwd,
-    path.join(cwd, "frontend"),
-    path.join(cwd, "frontend/dist"),
-    path.join(cwd, "backend"),
-  ];
-  
+  const paths = [cwd, path.join(cwd, "frontend"), path.join(cwd, "frontend/dist")];
   const results = paths.map(p => ({
     path: p,
     exists: fs.existsSync(p),
     contents: fs.existsSync(p) ? fs.readdirSync(p).slice(0, 10) : []
   }));
-  
-  res.json({
-    cwd,
-    env: process.env.NODE_ENV,
-    results
-  });
+  res.json({ cwd, results });
 });
 
 const __filename = fileURLToPath(import.meta.url);
