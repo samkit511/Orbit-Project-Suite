@@ -31,6 +31,26 @@ if (process.env.NODE_ENV === "production") {
   app.set("trust proxy", 1);
 }
 
+// --- START STATIC ASSETS (TOP PRIORITY) ---
+const possiblePaths = [
+  path.join(process.cwd(), "frontend/dist"),
+  path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../frontend/dist"),
+  "/opt/render/project/src/frontend/dist"
+];
+
+let frontendPath = possiblePaths[0];
+for (const p of possiblePaths) {
+  if (fs.existsSync(p)) {
+    frontendPath = p;
+    break;
+  }
+}
+
+if (fs.existsSync(frontendPath)) {
+  app.use(express.static(frontendPath));
+}
+// --- END STATIC ASSETS ---
+
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 
 app.use(
@@ -110,19 +130,21 @@ app.get("/api/debug-paths", (req, res) => {
   res.json({ cwd, results });
 });
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+// SPA FALLBACK (BOTTOM PRIORITY)
 if (process.env.NODE_ENV === "production") {
-  const frontendPath = path.join(process.cwd(), "frontend/dist");
-  app.use(express.static(frontendPath));
   app.get("*", (req, res, next) => {
     if (!req.path.startsWith("/api") && !req.path.startsWith("/health")) {
-      return res.sendFile(path.join(frontendPath, "index.html"));
+      const p = path.join(process.cwd(), "frontend/dist/index.html");
+      if (fs.existsSync(p)) return res.sendFile(p);
+      const p2 = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../frontend/dist/index.html");
+      if (fs.existsSync(p2)) return res.sendFile(p2);
     }
     next();
   });
 }
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(notFound);
 app.use(errorHandler);
