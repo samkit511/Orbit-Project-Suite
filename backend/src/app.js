@@ -21,10 +21,10 @@ dotenv.config();
 ensureRuntimeConfig();
 
 const app = express();
-const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
-  .split(",")
-  .map((origin) => origin.trim())
-  .filter(Boolean);
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://orbit-project-suite.onrender.com"
+];
 
 app.disable("x-powered-by");
 if (process.env.NODE_ENV === "production") {
@@ -62,7 +62,7 @@ app.use(
         scriptSrc: ["'self'", "'unsafe-inline'"],
         styleSrc: ["'self'", "'unsafe-inline'"],
         imgSrc: ["'self'", "data:", "https:"],
-        connectSrc: ["'self'", ...allowedOrigins],
+        connectSrc: ["'self'", ...allowedOrigins, "https://*.onrender.com"],
         fontSrc: ["'self'", "https:", "data:"],
         objectSrc: ["'none'"],
         mediaSrc: ["'self'"],
@@ -78,12 +78,12 @@ app.use(hpp());
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".onrender.com")) {
         return callback(null, true);
       }
       return callback(new Error("CORS origin is not allowed"));
     },
-    credentials: false,
+    credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
   })
