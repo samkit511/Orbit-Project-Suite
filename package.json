@@ -7,8 +7,8 @@
     "main": "index.js",
     "scripts":  {
                     "setup": "npm run install:all && npm run db:start && npm run db:wait && npm run prisma:generate && npm run prisma:migrate && npm run prisma:seed",
-                    "install:all":  "npm install --prefix backend && npm install --prefix frontend",
-                    "build": "cd frontend && npm install && npm run build && cd .. && npm run prisma:generate",
+                    "install:all":  "npm install --include=dev --prefix backend && npm install --include=dev --prefix frontend",
+                    "build": "cd frontend && npm install --include=dev && npm run build && cd .. && npm run prisma:generate",
                     "start": "npm run prisma:deploy --prefix backend && node backend/src/server.js",
                     "dev:backend":  "npm run dev --prefix backend",
                     "dev:frontend":  "npm run dev --prefix frontend -- --host 0.0.0.0",
