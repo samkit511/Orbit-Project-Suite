@@ -119,17 +119,6 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/users", userRoutes);
 
-app.get("/api/debug-paths", (req, res) => {
-  const cwd = process.cwd();
-  const paths = [cwd, path.join(cwd, "frontend"), path.join(cwd, "frontend/dist")];
-  const results = paths.map(p => ({
-    path: p,
-    exists: fs.existsSync(p),
-    contents: fs.existsSync(p) ? fs.readdirSync(p).slice(0, 10) : []
-  }));
-  res.json({ cwd, results });
-});
-
 // SPA FALLBACK (BOTTOM PRIORITY)
 if (process.env.NODE_ENV === "production") {
   app.get("*", (req, res, next) => {
