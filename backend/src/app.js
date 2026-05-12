@@ -98,6 +98,29 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/users", userRoutes);
 
+app.get("/api/debug-paths", (req, res) => {
+  const fs = await import("fs");
+  const cwd = process.cwd();
+  const paths = [
+    cwd,
+    path.join(cwd, "frontend"),
+    path.join(cwd, "frontend/dist"),
+    path.join(cwd, "backend"),
+  ];
+  
+  const results = paths.map(p => ({
+    path: p,
+    exists: fs.existsSync(p),
+    contents: fs.existsSync(p) ? fs.readdirSync(p).slice(0, 10) : []
+  }));
+  
+  res.json({
+    cwd,
+    env: process.env.NODE_ENV,
+    results
+  });
+});
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
