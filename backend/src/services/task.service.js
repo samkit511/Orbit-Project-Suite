@@ -4,6 +4,7 @@ import { parseBody, statusSchema, taskSchema, taskUpdateSchema } from "../utils/
 
 const taskInclude = {
   assignedTo: { select: { id: true, name: true, email: true, role: true } },
+  creator: { select: { id: true, name: true } },
   project: { select: { id: true, slug: true, name: true } }
 };
 
@@ -84,6 +85,7 @@ export async function createTask(user, payload) {
       priority: data.priority || "MEDIUM",
       dueDate: data.dueDate ? new Date(data.dueDate) : null,
       assignedToId: data.assignedToId,
+      creatorId: user.id,
       projectId: data.projectId
     },
     include: taskInclude
@@ -122,13 +124,15 @@ export async function updateTask(user, taskId, payload) {
 }
 
 export async function deleteTask(user, taskId) {
-  if (!canLeadWork(user)) {
-    const error = new Error("Only managers and leads can delete tasks");
+  const task = await getTaskOrThrow(taskId);
+
+  // Only the creator or an ADMIN can delete the task
+  if (user.role !== "ADMIN" && task.creatorId !== user.id) {
+    const error = new Error("Only the task creator or an administrator can delete this task");
     error.statusCode = 403;
     throw error;
   }
 
-  await getTaskOrThrow(taskId);
   await prisma.task.delete({ where: { id: taskId } });
   return { message: "Task deleted" };
 }

@@ -78,7 +78,7 @@ app.use(hpp());
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".onrender.com")) {
+      if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".onrender.com") || origin.endsWith(".railway.app")) {
         return callback(null, true);
       }
       return callback(new Error("CORS origin is not allowed"));

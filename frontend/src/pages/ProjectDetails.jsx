@@ -18,7 +18,7 @@ export default function ProjectDetails() {
   const users = useQuery({ queryKey: ["users"], queryFn: async () => (await api.get("/users")).data, enabled: canManageProjects });
 
   const addMember = useMutation({
-    mutationFn: async () => (await api.post(`/projects/${id}/members`, { userId })).data,
+    mutationFn: async () => (await api.post(`/projects/${project.data.id}/members`, { userId })).data,
     onSuccess: () => {
       setUserId("");
       setError("");

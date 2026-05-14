@@ -9,13 +9,14 @@ export default function Dashboard() {
   const recent = useQuery({ queryKey: ["recent-tasks"], queryFn: async () => (await api.get("/dashboard/recent")).data });
 
   const updateStatus = useMutation({
-    mutationFn: async ({ id, status }) => (await api.patch(`/tasks/${id}/status`, { status })).data,
+    mutationFn: async ({ taskId, status }) => (await api.patch(`/tasks/${taskId}/status`, { status })).data,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
       queryClient.invalidateQueries({ queryKey: ["recent-tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["project"] });
-    }
+    },
+    onError: (err) => console.error("Status update failed:", err)
   });
 
   return (
@@ -33,7 +34,7 @@ export default function Dashboard() {
             <TaskCard
               key={task.id}
               task={task}
-              onStatusChange={(id, status) => updateStatus.mutate({ id, status })}
+              onStatusChange={(taskId, status) => updateStatus.mutate({ taskId, status })}
             />
           ))}
         </div>

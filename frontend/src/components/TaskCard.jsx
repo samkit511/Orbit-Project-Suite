@@ -13,7 +13,7 @@ export default function TaskCard({ task, onStatusChange, onDelete }) {
           <h3 className="font-semibold text-ink">{task.title}</h3>
           <p className="mt-1 text-sm text-slate-500">{task.description || "No description."}</p>
         </div>
-        {canLeadWork && (
+        {(user?.role === "ADMIN" || task.creator?.id === user?.id) && (
           <button className="focus-ring rounded-md p-2 text-slate-400 hover:bg-red-50 hover:text-red-600" onClick={() => onDelete?.(task.id)} aria-label="Delete task">
             <Trash2 size={17} />
           </button>

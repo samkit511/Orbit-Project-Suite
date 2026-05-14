@@ -38,6 +38,7 @@ model User {
   createdAt     DateTime        @default(now())
   projects      Project[]       @relation("CreatedProjects")
   assignedTasks Task[]          @relation("AssignedTasks")
+  createdTasks  Task[]          @relation("CreatedTasks")
   memberships   ProjectMember[]
 }
 
@@ -72,10 +73,12 @@ model Task {
   priority     Priority   @default(MEDIUM)
   dueDate      DateTime?
   assignedToId String
+  creatorId    String
   projectId    String
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   assignedTo   User       @relation("AssignedTasks", fields: [assignedToId], references: [id], onDelete: Cascade)
+  creator      User       @relation("CreatedTasks", fields: [creatorId], references: [id], onDelete: Cascade)
   project      Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
