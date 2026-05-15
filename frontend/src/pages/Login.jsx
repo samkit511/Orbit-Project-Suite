@@ -33,7 +33,7 @@ export default function Login() {
           <ul className="mt-1 list-inside list-disc space-y-0.5">
             <li>Admin: <span className="font-mono">admin@example.com</span></li>
             <li>Manager: <span className="font-mono">manager@example.com</span></li>
-            <li>Developer: <span className="font-mono">dev@example.com</span></li>
+            <li>Developer: <span className="font-mono">developer@example.com</span></li>
           </ul>
         </div>
         {error && <p className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p>}

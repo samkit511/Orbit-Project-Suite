@@ -33,15 +33,20 @@ export async function signupUser(payload) {
 
 export async function loginUser(payload) {
   const data = parseBody(loginSchema, payload);
-  const user = await prisma.user.findUnique({ where: { email: data.email } });
+  const email = data.email.trim().toLowerCase();
+  const password = data.password.trim();
+
+  console.log(`Login attempt for: ${email}`);
+  const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
+    console.log(`User not found: ${email}`);
     const error = new Error("Invalid email or password");
     error.statusCode = 401;
     throw error;
   }
 
-  const isMatch = await bcrypt.compare(data.password, user.password);
+  const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     const error = new Error("Invalid email or password");
     error.statusCode = 401;
