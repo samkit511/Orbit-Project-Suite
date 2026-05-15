@@ -16,7 +16,7 @@ const demoUsers = [
 async function upsertUser(user, password) {
   return prisma.user.upsert({
     where: { email: user.email },
-    update: { name: user.name, role: user.role },
+    update: { name: user.name, role: user.role, password },
     create: { ...user, password }
   });
 }
@@ -100,8 +100,18 @@ async function main() {
   for (const task of demoTasks) {
     await prisma.task.upsert({
       where: { id: task.id },
-      update: { ...task, projectId: project.id, dueDate: new Date(Date.now() + 86400000) },
-      create: { ...task, projectId: project.id, dueDate: new Date(Date.now() + 86400000) }
+      update: { 
+        ...task, 
+        projectId: project.id, 
+        creatorId: users.ADMIN.id,
+        dueDate: new Date(Date.now() + 86400000) 
+      },
+      create: { 
+        ...task, 
+        projectId: project.id, 
+        creatorId: users.ADMIN.id,
+        dueDate: new Date(Date.now() + 86400000) 
+      }
     });
   }
 }
