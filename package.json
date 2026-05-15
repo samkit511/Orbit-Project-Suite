@@ -7,8 +7,8 @@
     "main": "index.js",
     "scripts":  {
                     "setup": "npm run install:all && npm run db:start && npm run db:wait && npm run prisma:generate && npm run prisma:migrate && npm run prisma:seed",
-                    "install:all":  "npm install --include=dev --prefix backend && npm install --include=dev --prefix frontend",
-                    "build": "npm install --prefix backend && cd frontend && npm install --include=dev && npm run build && cd .. && npx prisma generate --schema=backend/prisma/schema.prisma",
+                    "install:all":  "npm install --include=dev && cd frontend && npm install --include=dev",
+                    "build": "cd frontend && npm run build && cd .. && npx prisma generate --schema=backend/prisma/schema.prisma",
                     "start": "npx prisma migrate deploy --schema=backend/prisma/schema.prisma && npx prisma db seed --schema=backend/prisma/schema.prisma && node backend/src/server.js",
                     "dev:backend":  "npm run dev --prefix backend",
                     "dev:frontend":  "npm run dev --prefix frontend -- --host 0.0.0.0",
@@ -21,7 +21,21 @@
                     "db:start":  "node scripts/start-db.cjs",
                     "db:wait":  "node scripts/wait-for-db.cjs"
                 },
-    "devDependencies":  {
-                            "concurrently":  "^9.1.0"
-                        }
+    "dependencies": {
+        "@prisma/client": "^6.1.0",
+        "bcryptjs": "^2.4.3",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "express": "^4.21.1",
+        "express-rate-limit": "^8.5.1",
+        "helmet": "^8.1.0",
+        "hpp": "^0.2.3",
+        "jsonwebtoken": "^9.0.2",
+        "morgan": "^1.10.0",
+        "zod": "^3.23.8"
+    },
+    "devDependencies": {
+        "concurrently": "^9.1.0",
+        "prisma": "^6.1.0"
+    }
 }
