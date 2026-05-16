@@ -3,6 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { getErrorMessage } from "../utils/helpers";
 
+const testAccounts = [
+  ["Admin", "admin@example.com"],
+  ["Manager", "manager@example.com"],
+  ["Project Lead", "pl@example.com"],
+  ["QA Lead", "ql@example.com"],
+  ["Developer", "developer@example.com"],
+  ["Intern", "intern@example.com"],
+  ["Member", "member@example.com"]
+];
+
 export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -31,9 +41,11 @@ export default function Login() {
         <div className="mt-4 rounded-md border border-slate-100 bg-slate-50 p-3 text-xs text-slate-600">
           <p className="font-semibold text-slate-800">Test Credentials (Password: Password123):</p>
           <ul className="mt-1 list-inside list-disc space-y-0.5">
-            <li>Admin: <span className="font-mono">admin@example.com</span></li>
-            <li>Manager: <span className="font-mono">manager@example.com</span></li>
-            <li>Developer: <span className="font-mono">developer@example.com</span></li>
+            {testAccounts.map(([role, email]) => (
+              <li key={email}>
+                {role}: <span className="font-mono">{email}</span>
+              </li>
+            ))}
           </ul>
         </div>
         {error && <p className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p>}
